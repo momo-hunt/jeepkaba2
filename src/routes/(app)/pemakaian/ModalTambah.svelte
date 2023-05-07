@@ -3,13 +3,13 @@
   import FormTambah from "./tambah/FormTambah.svelte";
   import { modal, list } from "$lib/stores";
 
-  export let name;
+  export let title;
 </script>
 
-{#if $modal[name]}
-  <Modalx {name}>
+{#if $modal[title]}
+  <Modalx name={title}>
     <h2>Tambah Pemakaian</h2>
-    <FormTambah on:success={() => modal.close(name)} />
+    <FormTambah {title} action="/pemakaian?/add" />
   </Modalx>
 {/if}
 

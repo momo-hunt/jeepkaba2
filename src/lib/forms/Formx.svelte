@@ -1,10 +1,11 @@
 <script>
-  import { createEventDispatcher } from "svelte";
+  import { form } from "$lib/stores";
   import { enhance } from "$app/forms";
 
-  const dispatch = createEventDispatcher();
   export let title;
   export let action;
+
+  // $: console.log($form);
 </script>
 
 <form
@@ -12,10 +13,11 @@
   {action}
   method="post"
   use:enhance={() => {
+    form.onSubmit(title);
     return async ({ result }) => {
       console.log("result form -> ", result);
-      // if(result.status != 200)
-      dispatch("success", result.data);
+      if (result.status != 200) return form.onError(title);
+      form.onSuccess(title, result.data);
     };
   }}
 >

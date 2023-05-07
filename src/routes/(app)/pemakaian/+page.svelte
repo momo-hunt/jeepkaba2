@@ -1,10 +1,14 @@
 <script>
   import { onMount } from "svelte";
-  import { list, modal } from "$lib/stores";
+  import { list, modal, form } from "$lib/stores";
   import ListPemakaian from "./ListPemakaian.svelte";
   import ModalTambah from "./ModalTambah.svelte";
+  import HorisontalLoader from "$lib/loader/HorisontalLoader.svelte";
 
   let modalTambah = "tambah-pemakaian";
+  $: if ($form[modalTambah]?.success) {
+    modal.close(modalTambah);
+  }
 
   onMount(() => {
     list.loadData("pemakaian", $list);
@@ -18,9 +22,9 @@
 <button on:click={() => modal.open(modalTambah)}>Baru</button>
 
 {#if $list.pemakaian.loading}
-  <p>Memuat...</p>
+  <HorisontalLoader text="memuat data" />
 {:else}
   <ListPemakaian />
 {/if}
 
-<ModalTambah name={modalTambah} />
+<ModalTambah title={modalTambah} />

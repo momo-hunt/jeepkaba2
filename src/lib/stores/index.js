@@ -2,7 +2,13 @@ import { writable } from "svelte/store";
 
 const listStore = () => {
   const { subscribe, set, update } = writable({
-    pemakaian: { loading: false, data: [] },
+    pemakaian: {
+      loading: false,
+      data: [
+        { id: 323, coba: "asd" },
+        { id: 353, coba: "lpk" },
+      ],
+    },
     user: { loading: false, data: [] },
   });
   return {
@@ -25,6 +31,7 @@ const listStore = () => {
 
     add: (name, objData) =>
       update((n) => {
+        // console.log(n[name]);
         n[name].data = [objData, ...n[name].data];
         return n;
       }),
@@ -61,5 +68,27 @@ const modalStore = () => {
       }),
   };
 };
-
 export const modal = modalStore();
+
+const formStore = () => {
+  const { subscribe, set, update } = writable({});
+  return {
+    subscribe,
+    onSubmit: (name) =>
+      update((n) => {
+        n[name] = { ...n[name], submit: true };
+        return n;
+      }),
+    onSuccess: (name, data) =>
+      update((n) => {
+        n[name] = { ...n[name], submit: false, success: true, data };
+        return n;
+      }),
+    onError: (name) =>
+      update((n) => {
+        n[name] = { ...n[name], submit: false, success: false };
+        return n;
+      }),
+  };
+};
+export const form = formStore();

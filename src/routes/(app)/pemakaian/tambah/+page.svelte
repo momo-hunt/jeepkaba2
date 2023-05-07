@@ -1,11 +1,11 @@
 <script>
-  import Formx from "$lib/forms/Formx.svelte";
   import FormTambah from "./FormTambah.svelte";
+  // import { list, form } from "$lib/stores";
 </script>
 
 <h2>Tambah Pemakaian</h2>
 
-<FormTambah />
+<FormTambah title="tambah-pemakaian" action="/pemakaian?/add" />
 
 <style>
   h2 {
