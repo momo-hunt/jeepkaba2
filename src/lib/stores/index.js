@@ -2,13 +2,7 @@ import { writable } from "svelte/store";
 
 const listStore = () => {
   const { subscribe, set, update } = writable({
-    pemakaian: {
-      loading: false,
-      data: [
-        { id: 323, coba: "asd" },
-        { id: 353, coba: "lpk" },
-      ],
-    },
+    pemakaian: { loading: false, data: [] },
     user: { loading: false, data: [] },
   });
   return {
@@ -38,15 +32,22 @@ const listStore = () => {
 
     delete: (name, id) =>
       update((n) => {
-        n[name].data.filter((d) => d.id != id);
+        n[name].data = n[name].data.filter((d) => d.id != id);
         return n;
       }),
 
-    update: (name, id, objData) => {
-      n[name].data.filter((d) => {
-        if (d.id == id) d = [...d, ...objData];
-      });
-    },
+    update: (name, id, objData) =>
+      update((n) => {
+        console.log("1", n[name].data[0]);
+        n[name].data = n[name].data.map((d) => {
+          if (d.id == id) {
+            d = { ...d, ...objData };
+          }
+          return d;
+        });
+        console.log("1", n[name].data[0]);
+        return n;
+      }),
   };
 };
 export const list = listStore();
@@ -55,9 +56,10 @@ const modalStore = () => {
   const { subscribe, set, update } = writable({});
   return {
     subscribe,
-    open: (name) =>
+    open: (name, id) =>
       update((n) => {
         n[name] = true;
+        n.id = id;
         return n;
       }),
 
@@ -76,19 +78,50 @@ const formStore = () => {
     subscribe,
     onSubmit: (name) =>
       update((n) => {
-        n[name] = { ...n[name], submit: true };
+        n[name] = { submit: true };
         return n;
       }),
+
     onSuccess: (name, data) =>
       update((n) => {
-        n[name] = { ...n[name], submit: false, success: true, data };
+        setTimeout(() => set({}), 3000);
+        n[name] = { submit: false, success: true, data };
         return n;
       }),
-    onError: (name) =>
+
+    onError: (name, data) =>
       update((n) => {
-        n[name] = { ...n[name], submit: false, success: false };
+        setTimeout(() => set({}), 3000);
+        n[name] = { submit: false, error: true, data };
+        return n;
+      }),
+
+    onCancel: (name, data) =>
+      update((n) => {
+        setTimeout(() => set({}), 3000);
+        n[name] = { submit: false, cancel: true, data };
         return n;
       }),
   };
 };
 export const form = formStore();
+
+const toastStore = () => {
+  const { subscribe, set, update } = writable([]);
+  return {
+    subscribe,
+    set: (type, text) =>
+      update((n) => {
+        let id = n.length + 1;
+        n = [{ type, text, id }, ...n];
+        return n;
+      }),
+
+    delete: () =>
+      update((n) => {
+        n.pop();
+        return n;
+      }),
+  };
+};
+export const toast = toastStore();

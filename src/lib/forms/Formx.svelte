@@ -16,7 +16,12 @@
     form.onSubmit(title);
     return async ({ result }) => {
       console.log("result form -> ", result);
-      if (result.status != 200) return form.onError(title);
+      if (result.status != 200) {
+        if (result.data.cancel) {
+          return form.onCancel(title);
+        }
+        return form.onError(title);
+      }
       form.onSuccess(title, result.data);
     };
   }}

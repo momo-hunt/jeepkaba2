@@ -1,15 +1,20 @@
 <script>
   import Modalx from "$lib/elements/Modalx.svelte";
-  import FormTambah from "./tambah/FormTambah.svelte";
-  import { modal, list } from "$lib/stores";
+  import FormPemakaian from "./tambah/FormPemakaian.svelte";
+  import { modal, list, form } from "$lib/stores";
 
   export let title;
+
+  $: if ($form[title]?.success) {
+    list.add("pemakaian", $form[title].data);
+    modal.close(title);
+  }
 </script>
 
 {#if $modal[title]}
   <Modalx name={title}>
     <h2>Tambah Pemakaian</h2>
-    <FormTambah {title} action="/pemakaian?/add" />
+    <FormPemakaian {title} action="/pemakaian?/add" value />
   </Modalx>
 {/if}
 

@@ -4,11 +4,12 @@
   import ListPemakaian from "./ListPemakaian.svelte";
   import ModalTambah from "./ModalTambah.svelte";
   import HorisontalLoader from "$lib/loader/HorisontalLoader.svelte";
+  import ModalUbah from "./ModalUbah.svelte";
+  import PopupHapus from "./PopupHapus.svelte";
 
   let modalTambah = "tambah-pemakaian";
-  $: if ($form[modalTambah]?.success) {
-    modal.close(modalTambah);
-  }
+  let modalUbah = "ubah-pemakaian";
+  let popupHapus = "hapus-pemakaian";
 
   onMount(() => {
     list.loadData("pemakaian", $list);
@@ -24,7 +25,9 @@
 {#if $list.pemakaian.loading}
   <HorisontalLoader text="memuat data" />
 {:else}
-  <ListPemakaian />
+  <ListPemakaian {modalUbah} {popupHapus} />
 {/if}
 
 <ModalTambah title={modalTambah} />
+<ModalUbah title={modalUbah} />
+<PopupHapus title={popupHapus} />

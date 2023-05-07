@@ -1,5 +1,6 @@
 <script>
   import "../../src/app.css";
+  import Toastx from "$lib/elements/Toastx.svelte";
 </script>
 
 <svelte:head>
@@ -7,3 +8,5 @@
 </svelte:head>
 
 <slot />
+
+<Toastx />

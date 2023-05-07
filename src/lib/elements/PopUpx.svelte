@@ -1,11 +1,11 @@
 <script>
   import { modal } from "$lib/stores";
 
-  export let name;
+  export let title;
 </script>
 
 <section>
-  <button class="backdrop" on:click={() => modal.close(name)} />
+  <button class="backdrop" on:click={() => modal.close(title)} />
   <article>
     <slot />
   </article>
@@ -21,7 +21,7 @@
     height: 100vh;
     display: flex;
     justify-content: center;
-    padding: 6rem 2rem;
+    align-items: center;
     background: rgba(0, 0, 0, 0.5);
   }
 
@@ -35,7 +35,10 @@
 
   section article {
     position: relative;
-    overflow-y: auto;
+    width: 300px;
+    transform: translateY(-4rem);
     background: var(--bg-black-1);
+    text-align: center;
+    padding: 1rem;
   }
 </style>

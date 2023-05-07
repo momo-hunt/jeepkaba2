@@ -70,6 +70,14 @@ button.submit {
   color: var(--bg-1);
 }
 
+button.submit.yes {
+  background: green;
+}
+
+button.submit.no {
+  background: red;
+}
+
 button.submit:focus {
   filter: brightness(0.9);
 }

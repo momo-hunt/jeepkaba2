@@ -4,22 +4,17 @@
   import HorisontalLoader from "$lib/loader/HorisontalLoader.svelte";
   export let title;
   export let action;
-
-  $: if ($form?.[title]?.success) {
-    list.add("pemakaian", $form[title]?.data);
-  }
+  export let value;
 </script>
 
 <Formx {title} {action}>
   <label for="asd">asd</label>
-  <input type="text" name="coba" value="coba title" />
-  <label for="asd">asd</label>
-  <input type="text" name="coba1" value="coba title" />
+  <input type="text" name="coba" value={value?.["coba"] ?? "test"} />
   <button type="submit" class="submit" disabled={$form[title]?.submit}>
     {#if $form[title]?.submit}
       <HorisontalLoader />
     {:else}
-      Tambah
+      Simpan
     {/if}
   </button>
 </Formx>
